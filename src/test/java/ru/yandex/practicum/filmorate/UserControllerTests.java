@@ -49,14 +49,6 @@ class UserControllerTests {
         SpringApplication.exit(springSrv);
     }
 
-    @Test
-    void checkHome() throws IOException, InterruptedException { // тест домашней страницы
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(DOMAIN_PATH + "/home");
-        HttpRequest httpRequest = HttpRequest.newBuilder().uri(uri).GET().build();
-        HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        assertEquals(200, response.statusCode());
-    }
 
     @Test
     void checkCreateNewUser() throws IOException, InterruptedException { // тест домашней страницы
