@@ -24,10 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class UserControllerTests {
     private static ConfigurableApplicationContext springSrv;
-    private final String DOMAIN_PATH = "http://localhost:8080";
-    
-    private final String LOCAL_ADDRESS = "/users";
     private static Gson gson;
+    private final String DOMAIN_PATH = "http://localhost:8080";
+    private final String LOCAL_ADDRESS = "/users";
 
     public static Gson getGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();

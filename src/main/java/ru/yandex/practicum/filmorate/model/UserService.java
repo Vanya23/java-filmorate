@@ -18,15 +18,19 @@ public class UserService {
         if (validUserName(user)) user.setName(user.getLogin());
         return true;
     }
+
     private static boolean validUserBirthday(User user) {
         return user.getBirthday().isAfter(LocalDate.now());
     }
+
     private static boolean validUserEmail(User user) {
         return user.getEmail().equals("") || !user.getEmail().contains(EMAIL_STRING);
     }
+
     private static boolean validUserLogin(User user) {
         return user.getLogin().equals("") || user.getLogin().contains(" ");
     }
+
     private static boolean validUserName(User user) {
         return user.getName().equals("");
     }

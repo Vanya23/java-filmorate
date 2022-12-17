@@ -6,17 +6,14 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.UserService;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 
 @Slf4j
 @RestController
 public class UserController {
-    private int counterId = 1;
     private final HashMap<Integer, User> users = new HashMap<Integer, User>();
-
-
+    private int counterId = 1;
 
     @GetMapping("/users")
     public Collection<User> findAll() {
@@ -46,7 +43,7 @@ public class UserController {
     private void fullValidUser(User user) throws ValidationException {
         if (!UserService.validUser(user)) {
             log.warn("Получен запрос к эндпоинту: '{} {}', Выброшено исключение: '{}',  Причина: '{}', Строка параметров запроса: '{}'",
-                    "post", "/users", ValidationException.class.getName(), "Данные пользователя некорректные",user);
+                    "post", "/users", ValidationException.class.getName(), "Данные пользователя некорректные", user);
             throw new ValidationException();
         }
     }
@@ -54,7 +51,7 @@ public class UserController {
     private void checkUnknownUser(User user) throws ValidationException {
         if (!users.containsKey(user.getId())) {
             log.warn("Получен запрос к эндпоинту: '{} {}', Выброшено исключение: '{}',  Причина: '{}', Строка параметров запроса: '{}'",
-                    "put", "/users", ValidationException.class.getName(), "Неизвестный пользователь",user);
+                    "put", "/users", ValidationException.class.getName(), "Неизвестный пользователь", user);
             throw new ValidationException();
         }
     }

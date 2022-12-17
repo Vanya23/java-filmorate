@@ -5,8 +5,6 @@ import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-
-
 import java.time.LocalDate;
 
 @Data
@@ -19,7 +17,8 @@ public class Film {
     private String description; // описание
     @NonNull
     private LocalDate releaseDate; // дата релиза
-    @NonNull @Positive
-    private  long duration; // продолжительность фильма
+    @NonNull
+    @Positive
+    private long duration; // продолжительность фильма
 
 }

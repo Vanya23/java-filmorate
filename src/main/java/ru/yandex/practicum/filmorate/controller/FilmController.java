@@ -6,15 +6,14 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.FilmService;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 
 @Slf4j
 @RestController
 public class FilmController {
-    private int counterId = 1;
     private final HashMap<Integer, Film> films = new HashMap<>();
+    private int counterId = 1;
 
     @GetMapping("/films")
     public Collection<Film> findAll() {
@@ -45,7 +44,7 @@ public class FilmController {
     private void fullValidFilm(Film film) throws ValidationException {
         if (!FilmService.validFilm(film)) {
             log.warn("Получен запрос к эндпоинту: '{} {}', Выброшено исключение: '{}',  Причина: '{}', Строка параметров запроса: '{}'",
-                    "post", "/films", ValidationException.class.getName(), "Данные фильма некорректные",film);
+                    "post", "/films", ValidationException.class.getName(), "Данные фильма некорректные", film);
             throw new ValidationException();
         }
     }
@@ -53,7 +52,7 @@ public class FilmController {
     private void checkUnknownFilm(Film film) throws ValidationException {
         if (!films.containsKey(film.getId())) {
             log.warn("Получен запрос к эндпоинту: '{} {}', Выброшено исключение: '{}',  Причина: '{}', Строка параметров запроса: '{}'",
-                    "put", "/films", ValidationException.class.getName(), "Неизвестный фильм",film);
+                    "put", "/films", ValidationException.class.getName(), "Неизвестный фильм", film);
             throw new ValidationException();
         }
     }

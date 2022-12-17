@@ -17,19 +17,22 @@ public class FilmService {
         if (validFilmName(film)) return false;
         if (validFilmDescription(film)) return false;
         if (validFilmReleaseDate(film)) return false;
-        if (validFilmDuration(film)) return false;
-        return true;
+        return !validFilmDuration(film);
     }
-    private static  boolean validFilmName(Film film) {
+
+    private static boolean validFilmName(Film film) {
         return film.getName().equals("");
     }
-    private static  boolean validFilmDescription(Film film) {
+
+    private static boolean validFilmDescription(Film film) {
         return film.getDescription().length() > MAX_LENGTH_DESCRIPTION;
     }
-    private static  boolean validFilmReleaseDate(Film film) {
+
+    private static boolean validFilmReleaseDate(Film film) {
         return film.getReleaseDate().isBefore(EARLY_DATE);
     }
-    private static  boolean validFilmDuration(Film film) {
+
+    private static boolean validFilmDuration(Film film) {
         return film.getDuration() <= MIN_DURATION;
     }
 

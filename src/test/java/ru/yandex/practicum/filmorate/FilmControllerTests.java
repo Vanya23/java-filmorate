@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,9 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FilmControllerTests {
     private static ConfigurableApplicationContext springSrv;
+    private static Gson gson;
     private final String DOMAIN_PATH = "http://localhost:8080";
     private final String LOCAL_ADDRESS = "/films";
-    private static Gson gson;
 
     public static Gson getGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
