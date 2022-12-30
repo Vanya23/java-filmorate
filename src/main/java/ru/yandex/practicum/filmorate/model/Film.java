@@ -6,9 +6,12 @@ import lombok.NonNull;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class Film {
+    private Set<Long> likes = new HashSet<>(); // список лайков
     @NotBlank
     private int id; // целочисленный идентификатор
     @NonNull

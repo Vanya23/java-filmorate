@@ -1,8 +1,12 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.service;
+
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 
-public class UserService {
+@Service
+public class UserValidate {
     private static final String EMAIL_STRING = "@";
 
     //Проверьте данные, которые приходят в запросе на добавление нового фильма или пользователя.
