@@ -95,11 +95,13 @@ public class FilmController {
             throw new NotFoundException();
         }
     }
+
     private void checkUnknownFilm(int id) throws NotFoundException { // проверка по id
         if (!filmStorage.getFilms().containsKey(id)) {
             throw new NotFoundException();
         }
     }
+
     private void checkUnknownUser(int id) throws NotFoundException { // проверка по id
         if (!UserController.userStorage.getUsers().containsKey(id)) {
             throw new NotFoundException();

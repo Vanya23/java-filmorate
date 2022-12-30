@@ -104,16 +104,17 @@ public class UserController {
             throw new NotFoundException();
         }
     }
+
     private void checkUnknownUser(int id) throws NotFoundException { // проверка по id
         if (!userStorage.getUsers().containsKey(id)) {
             throw new NotFoundException();
         }
     }
+
     private void checkUnknownUser(int id1, int id2) throws NotFoundException {
         checkUnknownUser(id1);
         checkUnknownUser(id2);
     }
-
 
 
 }
