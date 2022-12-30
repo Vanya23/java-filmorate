@@ -18,28 +18,30 @@ import java.util.List;
 @RestController
 public class FilmController {
 
+    private final String ROOT_PATH = "/films";
+
     public static FilmStorage filmStorage = new InMemoryFilmStorage();
 
 
-    @GetMapping("/films")
+    @GetMapping(ROOT_PATH)
     public Collection<Film> findAll() {
         return filmStorage.getFilms().values();
     }
 
-    @GetMapping("films/{id}") // возможность получать каждый фильм по их уникальному
+    @GetMapping(ROOT_PATH + "/{id}") // возможность получать каждый фильм по их уникальному
     public Film findUserById(@PathVariable int id) throws NotFoundException {
         checkUnknownFilm(id); // NotFoundException
         return filmStorage.getFilms().get(id);
     }
 
-    @GetMapping("/films/popular") // возвращает список из первых count фильмов по количеству лайков.
+    @GetMapping(ROOT_PATH + "/popular") // возвращает список из первых count фильмов по количеству лайков.
     // Если значение параметра count не задано, верните первые 10.
     public List<Film> getTopFilms(
             @RequestParam(defaultValue = "10", required = false) int count) {
         return FilmService.mostPopularFilms(filmStorage, count);
     }
 
-    @PostMapping(value = "/films")
+    @PostMapping(value = ROOT_PATH)
     public Film create(@RequestBody Film film) throws ValidationException {
         fullValidFilm(film);
         film.setId(filmStorage.getAndIncrementCounterId());
@@ -49,7 +51,7 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping(value = "/films")
+    @PutMapping(value = ROOT_PATH)
     public Film update(@RequestBody Film film) throws NotFoundException, ValidationException {
         fullValidFilm(film); // если некорректный фильм то ValidationException
         checkUnknownFilm(film); // если фильм не найден  то NotFoundException
@@ -59,7 +61,7 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping(value = "/films/{id}/like/{userId}") // пользователь ставит лайк фильму.
+    @PutMapping(value = ROOT_PATH + "/{id}/like/{userId}") // пользователь ставит лайк фильму.
     public Film addLike(@PathVariable int id, @PathVariable int userId) throws NotFoundException {
         checkUnknownFilm(id);
         checkUnknownUser(userId);
@@ -69,7 +71,7 @@ public class FilmController {
         return film;
     }
 
-    @DeleteMapping(value = "/films/{id}/like/{userId}") // пользователь удаляет лайк.
+    @DeleteMapping(value = ROOT_PATH + "/{id}/like/{userId}") // пользователь удаляет лайк.
     public Film deleteLike(@PathVariable int id, @PathVariable int userId) throws NotFoundException {
         checkUnknownFilm(id);
         checkUnknownUser(userId);

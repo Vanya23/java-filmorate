@@ -16,19 +16,20 @@ import java.util.*;
 @RestController
 public class UserController {
     public static UserStorage userStorage = new InMemoryUserStorage();
+    private final String ROOT_PATH = "/users";
 
-    @GetMapping("/users")
+    @GetMapping(ROOT_PATH)
     public Collection<User> findAll() {
         return userStorage.getUsers().values();
     }
 
-    @GetMapping("users/{id}") // возможность получать каждый данные о пользователях по их уникальному
+    @GetMapping(ROOT_PATH + "/{id}") // возможность получать каждый данные о пользователях по их уникальному
     public User findUserById(@PathVariable int id) throws NotFoundException {
         checkUnknownUser(id); // NotFoundException
         return userStorage.getUsers().get(id);
     }
 
-    @GetMapping("/users/{id}/friends") // возвращаем список пользователей, являющихся его друзьями
+    @GetMapping(ROOT_PATH + "/{id}/friends") // возвращаем список пользователей, являющихся его друзьями
     public List<User> listFriends(@PathVariable int id) throws NotFoundException {
         checkUnknownUser(id); // NotFoundException
         List<User> friends = new ArrayList<>();
@@ -40,7 +41,7 @@ public class UserController {
         return friends;
     }
 
-    @GetMapping("/users/{id}/friends/common/{otherId}") // список друзей, общих с другим пользователем.
+    @GetMapping(ROOT_PATH + "/{id}/friends/common/{otherId}") // список друзей, общих с другим пользователем.
     public List<User> listMutualFriends(@PathVariable int id, @PathVariable int otherId) throws NotFoundException {
         checkUnknownUser(id, otherId); // NotFoundException
         User user = userStorage.getUsers().get(id);
@@ -55,7 +56,7 @@ public class UserController {
         return friends;
     }
 
-    @PostMapping(value = "/users")
+    @PostMapping(value = ROOT_PATH)
     public User create(@RequestBody User user) throws ValidationException {
         fullValidUser(user);
         user.setId(userStorage.getAndIncrementCounterId());
@@ -65,7 +66,7 @@ public class UserController {
         return user;
     }
 
-    @PutMapping(value = "/users")
+    @PutMapping(value = ROOT_PATH)
     public User update(@RequestBody User user) throws ValidationException, NotFoundException {
         fullValidUser(user); // если данные некорретны то ValidationException
         checkUnknownUser(user);// если пользователь не найден то NotFoundException
@@ -75,14 +76,14 @@ public class UserController {
         return user;
     }
 
-    @PutMapping(value = "/users/{id}/friends/{friendId}") // добавление в друзья
+    @PutMapping(value = ROOT_PATH + "/{id}/friends/{friendId}") // добавление в друзья
     public void addFriends(@PathVariable int id, @PathVariable int friendId) throws NotFoundException {
         checkUnknownUser(id, friendId); // NotFoundException
         HashMap<Integer, User> users = userStorage.getUsers();
         UserService.addFriends(users.get(id), users.get(friendId));
     }
 
-    @DeleteMapping(value = "/users/{id}/friends/{friendId}") // удаление друзей
+    @DeleteMapping(value = ROOT_PATH + "/{id}/friends/{friendId}") // удаление друзей
     public void deleteFriends(@PathVariable int id, @PathVariable int friendId) throws NotFoundException {
         checkUnknownUser(id, friendId); // NotFoundException
         HashMap<Integer, User> users = userStorage.getUsers();
