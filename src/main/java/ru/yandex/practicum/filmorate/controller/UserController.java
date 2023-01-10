@@ -1,13 +1,13 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.service.UserValidate;
-import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.*;
@@ -15,8 +15,13 @@ import java.util.*;
 @Slf4j
 @RestController
 public class UserController {
-    public static UserStorage userStorage = new InMemoryUserStorage();
+
+    public static UserStorage userStorage;
     private final String ROOT_PATH = "/users";
+
+    public UserController(@Qualifier("userDbStorage") UserStorage userStorage) {
+        UserController.userStorage = userStorage;
+    }
 
     @GetMapping(ROOT_PATH)
     public Collection<User> findAll() {
@@ -26,7 +31,7 @@ public class UserController {
     @GetMapping(ROOT_PATH + "/{id}") // возможность получать каждый данные о пользователях по их уникальному
     public User findUserById(@PathVariable int id) throws NotFoundException {
         checkUnknownUser(id); // NotFoundException
-        return userStorage.getUsers().get(id);
+        return userStorage.getUsersById(id);
     }
 
     @GetMapping(ROOT_PATH + "/{id}/friends") // возвращаем список пользователей, являющихся его друзьями
@@ -34,9 +39,9 @@ public class UserController {
         checkUnknownUser(id); // NotFoundException
         List<User> friends = new ArrayList<>();
         for (Long idL :
-                userStorage.getUsers().get(id).getFriends()) {
+                userStorage.getUsersById(id).getFriends()) {
             int idk = Math.toIntExact(idL);
-            friends.add(userStorage.getUsers().get(idk));
+            friends.add(userStorage.getUsersById(idk));
         }
         return friends;
     }
@@ -59,10 +64,13 @@ public class UserController {
     @PostMapping(value = ROOT_PATH)
     public User create(@RequestBody User user) throws ValidationException {
         fullValidUser(user);
-        user.setId(userStorage.getAndIncrementCounterId());
+        // при реалищации через Лист
+//        user.setId(userStorage.getAndIncrementCounterId());
+        //        userStorage.getUsers().put(user.getId(), user);
+        userStorage.addToStorageUser(user);
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "post", "/user", user);
-        userStorage.getUsers().put(user.getId(), user);
+
         return user;
     }
 
@@ -72,7 +80,8 @@ public class UserController {
         checkUnknownUser(user);// если пользователь не найден то NotFoundException
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "put", "/user", user);
-        userStorage.getUsers().put(user.getId(), user);
+//        userStorage.getUsers().put(user.getId(), user);  // метод при реализации arrayList
+        userStorage.updateToStorageUser(user);
         return user;
     }
 
@@ -80,14 +89,14 @@ public class UserController {
     public void addFriends(@PathVariable int id, @PathVariable int friendId) throws NotFoundException {
         checkUnknownUser(id, friendId); // NotFoundException
         HashMap<Integer, User> users = userStorage.getUsers();
-        UserService.addFriends(users.get(id), users.get(friendId));
+        userStorage.proposalFrendship(users.get(id), users.get(friendId));
     }
 
     @DeleteMapping(value = ROOT_PATH + "/{id}/friends/{friendId}") // удаление друзей
     public void deleteFriends(@PathVariable int id, @PathVariable int friendId) throws NotFoundException {
         checkUnknownUser(id, friendId); // NotFoundException
         HashMap<Integer, User> users = userStorage.getUsers();
-        UserService.deleteFriends(users.get(id), users.get(friendId));
+        userStorage.deleteProposalFrendship(users.get(id), users.get(friendId));
     }
 
     private void fullValidUser(User user) throws ValidationException {

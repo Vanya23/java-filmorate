@@ -9,9 +9,15 @@ public interface UserStorage {
 
     void setUsers(HashMap<Integer, User> users);
 
-    int getCounterId();
+    User getUsersById(int id);
 
-    void setCounterId(int counterId);
+    User addToStorageUser(User user);
+
+    User updateToStorageUser(User user);
+
+    void proposalFrendship(User user1, User user2);
+
+    void deleteProposalFrendship(User user1, User user2);
 
     int getAndIncrementCounterId();
 

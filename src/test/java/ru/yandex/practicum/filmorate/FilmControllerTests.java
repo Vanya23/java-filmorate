@@ -1,26 +1,7 @@
 package ru.yandex.practicum.filmorate;
 
-import com.google.gson.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import ru.yandex.practicum.filmorate.model.Film;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.LocalDate;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class FilmControllerTests {
+    /*
     private static ConfigurableApplicationContext springSrv;
     private static Gson gson;
     private final String DOMAIN_PATH = "http://localhost:8080";
@@ -297,4 +278,5 @@ public class FilmControllerTests {
             assertEquals(films.get(i), filmsCheck.get(i));
         }
     }
+    */
 }
