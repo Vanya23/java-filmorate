@@ -1,24 +1,28 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-    @NotBlank
-    private int id; // целочисленный идентификатор
+    Set<Long> friends = new HashSet<>(); // список друзей
+    int id; // целочисленный идентификатор
     @NonNull
     @Email(message = "Email should be valid")
-    private String email; // электронная почта
+    String email; // электронная почта
     @NonNull
-    private String login; // логин пользователя
+    String login; // логин пользователя
     @NonNull
-    private String name = ""; // имя для отображения
+    String name = ""; // имя для отображения
     @NonNull
-    private LocalDate birthday; // дата рождения
+    LocalDate birthday; // дата рождения
 
 }

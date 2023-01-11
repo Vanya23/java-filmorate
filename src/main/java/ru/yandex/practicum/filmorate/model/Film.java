@@ -1,24 +1,32 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Film {
-    @NotBlank
-    private int id; // целочисленный идентификатор
+    Set<Long> likes = new HashSet<>(); // список лайков
+    List<Genre> genres = new ArrayList<>(); // список жанров, т.к. для тестов надо сортированный список
+    Mpa mpa; // ограничение
+    int rate; // рейтинг
+    int id; // целочисленный идентификатор
     @NonNull
-    private String name; // название
+    String name; // название
     @NonNull
-    private String description; // описание
+    String description; // описание
     @NonNull
-    private LocalDate releaseDate; // дата релиза
+    LocalDate releaseDate; // дата релиза
     @NonNull
     @Positive
-    private long duration; // продолжительность фильма
-
+    long duration; // продолжительность фильма
 }

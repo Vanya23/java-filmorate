@@ -1,8 +1,12 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.service;
+
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
 
-public class FilmService {
+@Service
+public class FilmValidate {
     private static final int MAX_LENGTH_DESCRIPTION = 200;
     private static final LocalDate EARLY_DATE = LocalDate.of(1895, 12, 28);
     private static final long MIN_DURATION = 0;
@@ -35,5 +39,6 @@ public class FilmService {
     private static boolean validFilmDuration(Film film) {
         return film.getDuration() <= MIN_DURATION;
     }
+
 
 }
