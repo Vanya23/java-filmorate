@@ -64,9 +64,6 @@ public class UserController {
     @PostMapping(value = ROOT_PATH)
     public User create(@RequestBody User user) throws ValidationException {
         fullValidUser(user);
-        // при реалищации через Лист
-//        user.setId(userStorage.getAndIncrementCounterId());
-        //        userStorage.getUsers().put(user.getId(), user);
         userStorage.addToStorageUser(user);
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "post", "/user", user);
@@ -80,7 +77,6 @@ public class UserController {
         checkUnknownUser(user);// если пользователь не найден то NotFoundException
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "put", "/user", user);
-//        userStorage.getUsers().put(user.getId(), user);  // метод при реализации arrayList
         userStorage.updateToStorageUser(user);
         return user;
     }

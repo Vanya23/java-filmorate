@@ -52,9 +52,6 @@ public class FilmController {
     @PostMapping(value = ROOT_PATH_FILM)
     public Film create(@RequestBody Film film) throws ValidationException {
         fullValidFilm(film);
-        // при реализации через Лист
-//        film.setId(filmStorage.getAndIncrementCounterId());
-        //        filmStorage.getFilms().put(film.getId(), film);
         filmStorage.addToStorageFilm(film);
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "post", "/films", film);
@@ -68,7 +65,6 @@ public class FilmController {
         checkUnknownFilm(film); // если фильм не найден  то NotFoundException
         log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
                 "put", "/films", film);
-        //    filmStorage.getFilms().put(film.getId(), film);
         filmStorage.updateToStorageFilm(film);
         return film;
     }
